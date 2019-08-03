@@ -1,0 +1,148 @@
+<html>
+  <head>
+
+    <meta name = 'viewport' content = 'width = device-width, initial-scale = 1' charset = 'utf-8'/>
+
+    <!-- //The jQuery Mobile CSS theme file (optional, if you are overriding the default theme) -->
+    <link rel = "stylesheet" href = "https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+
+    <style>
+      #paginaMapa, #divMapa{
+        width:100%;
+        height: 400px;
+        padding: 0;
+      }
+    </style>
+
+<!-- //The jQuery core JavaScript file -->
+    <script src = "https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<!-- //The jQuery Mobile core JavaScript file -->
+    <script src = "https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <script src = "http://maps.googleapis.com/maps/api/js"></script>
+
+    <script>
+
+    function cambiarPagina(page){
+
+    $.mobile.changePage('#' + page, {
+
+      transition: 'flip'
+
+    });
+
+    };
+
+    $(document).ready(()=>{
+
+    var hoteles = [];
+
+    $('#boton1').click(()=>{
+      var mapa = 'null',
+          LatLngInicial = new google.maps.LatLng(25.760527, -80.192800),
+          marcadores = [],
+          opciones = {
+            zoom: 5,
+            center: LatLngInicial,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          },
+          mapa = new google.maps.Map(document.getElementById('divMapa'), opciones),
+          marcador = new google.maps.Marker({
+            position: LatLngInicial,
+            map: mapa,
+            title: 'Marcador'
+          });
+
+          marcadores[0] = marcador;
+
+      var id = $('#id').val(),
+          ciudad = $('#ciudad').val(),
+          telefono = $('#telefono').val(),
+          estrellas = $('#estrellas').val(),
+          hotel = {
+            id:id,
+            ciudad: ciudad,
+            telefono: telefono,
+            estrellas: estrellas
+          };
+
+      hoteles.push(hotel);
+      console.log('Cliente Registrado');
+      limpiarCampos();
+
+    });
+
+    function limpiarCampos(){
+  		$('#id').val('');
+  		$('#ciudad').val('');
+  		$('#telefono').val('');
+  		$('#estrellas').val('');
+  	};
+
+    })
+
+    </script>
+
+  </head>
+  <body>
+
+		<div data-role = 'page' id = 'paginaInicio'>
+			<div data-role = 'header'>
+				<h1>Gestión Hotel</h1>
+			</div>
+			<div data-role = 'content'>
+				<form>
+					<a onclick = "cambiarPagina('paginaRegistro')" class = 'ui-btn ui-icon-plus ui-btn-icon-left ui-shadow-icon'>Registrar Hotel</a>
+					<a onclick = "cambiarPagina('paginaListar')" id = 'btnListarCliente' class = 'ui-btn ui-icon-bars ui-btn-icon-left ui-shadow-icon'>Lista Hoteles</a>
+				</form>
+			</div>
+			<div data-role = 'footer'>
+				<p align = 'center'>Gestión Hotel</p>
+			</div>
+		</div>
+
+		<div data-role = 'page' id = 'paginaRegistro'>
+			<div data-role = 'header'>
+				<h1>Registro cliente</h1>
+			</div>
+			<div data-role = 'content'>
+				<form>
+					<div class = 'ui-field-contain'>
+						<label for = 'id'>Nombre: </label>
+						<input type = 'text' name = 'id' id = 'id'>
+						<label for = 'ubicacion'>Ubicación: </label>
+            <div id = 'divMapa'></div>
+						<label for = 'direccion'>Ciudad: </label>
+						<input type = 'text' name = 'ciudad' id = 'ciudad'>
+						<label for = 'telefono'>Teléfono: </label>
+						<input type = 'text' name = 'telefono' id = 'telefono'>
+						<label for = 'email'>Estrellas: </label>
+						<input type = 'text' name = 'estrellas' id = 'estrellas'>
+					</div>
+					<a id = 'boton1' class = 'ui-btn ui-icon-check ui-btn-icon-right ui-shadow-icon'>Registrar Hotel</a>
+					<a onclick = "cambiarPagina('paginaInicio')" class = 'ui-btn ui-icon-home ui-btn-icon-right ui-shadow-icon'>Volver</a>
+				</form>
+			</div>
+			<div data-role = 'footer'>
+				<p align = 'center'>Registro cliente</p>
+			</div>
+		</div>
+
+		<div data-role = 'page' id = 'paginaListar'>
+			<div data-role = 'header'>
+				<h1>Listar Hotel</h1>
+			</div>
+			<div data-role = 'content'>
+
+				<!-- <a onclick = "cambiarPagina('paginaVerDatos')" id = 'boton2' class = 'ui-btn ui-icon-check ui-btn-icon-right ui-shadow-icon'>Hotel Caribe</a>  -->
+
+				<a onclick = "cambiarPagina('paginaInicio')" class = 'ui-btn ui-icon-home ui-btn-icon-right ui-shadow-icon'>Volver</a>
+			</div>
+			<div data-role = 'footer'>
+				<p align = 'center'>Listado Clientes</p>
+			</div>
+		</div>
+
+  </body>
+</html>
