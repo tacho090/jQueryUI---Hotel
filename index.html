@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
   <head>
 
@@ -20,7 +21,8 @@
 <!-- //The jQuery Mobile core JavaScript file -->
     <script src = "https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
-    <script src = "http://maps.googleapis.com/maps/api/js"></script>
+    <!-- <script src = "http://maps.googleapis.com/maps/api/js"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFWisJ0O1OGspAEpt0cCQ8GmSfddjS10&callback=initMap" async defer></script>
 
     <script>
 
@@ -38,16 +40,20 @@
 
     var hoteles = [];
 
+    function initMap() {
+      mapa = new google.maps.Map(document.getElementById('divMapa'), opciones),
+      opciones = {
+        zoom: 8,
+        center: {lat: -34.397, lng: 150.644},
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+    }
+
     $('#boton1').click(()=>{
       var mapa = 'null',
           LatLngInicial = new google.maps.LatLng(25.760527, -80.192800),
           marcadores = [],
-          opciones = {
-            zoom: 5,
-            center: LatLngInicial,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-          },
-          mapa = new google.maps.Map(document.getElementById('divMapa'), opciones),
+
           marcador = new google.maps.Marker({
             position: LatLngInicial,
             map: mapa,
@@ -80,6 +86,7 @@
   		$('#estrellas').val('');
   	};
 
+    initMap();
     })
 
     </script>
@@ -104,7 +111,7 @@
 
 		<div data-role = 'page' id = 'paginaRegistro'>
 			<div data-role = 'header'>
-				<h1>Registro cliente</h1>
+				<h1>Listar Hotel</h1>
 			</div>
 			<div data-role = 'content'>
 				<form>
