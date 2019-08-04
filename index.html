@@ -26,13 +26,43 @@
 
     <script>
 
+    var hoteles = [];
+
     function cambiarPagina(page){
-      console.log('cambio de pagina completo');
       $.mobile.changePage('#' + page, {
         transition: 'flip'
       });
     };
 
+    function seleccionarHotel(hotel){
+      let string = hotel.getAttribute('id'),
+      string_last = string.charAt(string.length-1);
+      string_last = parseInt(string_last,0);
+      console.log(string);
+      let id = '';
+          ciudad = '';
+          telefono = '';
+          estrellas = '';
+
+          id = document.createTextNode(hoteles[string_last].id),
+          ciudad = document.createTextNode(hoteles[string_last].ciudad),
+          telefono = document.createTextNode(hoteles[string_last].telefono),
+          estrellas = document.createTextNode(hoteles[string_last].estrellas);
+
+      let verNombre = document.getElementById('verNombre'),
+          verCiudad = document.getElementById('verCiudad'),
+          verTelefono = document.getElementById('verTelefono'),
+          verEstrellas = document.getElementById('verEstrellas');
+
+        verNombre.innerHTML = '';
+        verCiudad.innerHTML = '';
+        verTelefono.innerHTML = '';
+        verEstrellas.innerHTML = '';  
+        verNombre.appendChild(id);
+        verCiudad.appendChild(ciudad);
+        verTelefono.appendChild(telefono);
+        verEstrellas.appendChild(estrellas);
+    }
 
     window.initMap = function(){
       var map,
@@ -46,7 +76,7 @@
     };
 
     $(document).ready(()=>{
-      var hoteles = [];
+      let counter = 0;
       $('#botonRegistro').click(()=>{
         var id = $('#id').val(),
             ciudad = $('#ciudad').val(),
@@ -59,17 +89,17 @@
               estrellas: estrellas
             };
       hoteles.push(hotel);
-      console.log('Hotel Registrado');
+      alert('Hotel Registrado');
       var myDiv = document.getElementById('appendTo');
       var link = document.createElement('a');
-      link.setAttribute("onclick", "cambiarPagina('paginaVerDatos')");
+      link.setAttribute("onclick", "cambiarPagina('paginaVerDatos'); seleccionarHotel(this)");
       link.setAttribute('class', 'ui-btn ui-icon-check ui-btn-icon-right ui-shadow-icon');
-      link.setAttribute('id', hotel.id);
+      link.setAttribute('id', 'hotel-' + counter);
       var text = document.createTextNode(hotel.id);
       link.appendChild(text);
       myDiv.appendChild(link);
-      console.log(hoteles);
       limpiarCampos();
+      counter += 1;
       });
 
       function limpiarCampos(){
@@ -143,7 +173,7 @@
         <a onclick = "cambiarPagina('paginaInicio')" class = 'ui-btn ui-icon-home ui-btn-icon-right ui-shadow-icon'>Volver</a>
       </div>
 			<div data-role = 'footer'>
-				<p align = 'center'>Listado Clientes</p>
+				<p align = 'center'>Listar Hotel</p>
 			</div>
 		</div>
 
