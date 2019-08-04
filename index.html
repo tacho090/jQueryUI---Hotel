@@ -4,7 +4,6 @@
 
     <meta name = 'viewport' content = 'width = device-width, initial-scale = 1' charset = 'utf-8'/>
 
-    <!-- //The jQuery Mobile CSS theme file (optional, if you are overriding the default theme) -->
     <link rel = "stylesheet" href = "https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 
     <style>
@@ -15,82 +14,68 @@
       }
     </style>
 
-<!-- //The jQuery core JavaScript file -->
+
     <script src = "https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-<!-- //The jQuery Mobile core JavaScript file -->
     <script src = "https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
-    <!-- <script src = "http://maps.googleapis.com/maps/api/js"></script> -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFWisJ0O1OGspAEpt0cCQ8GmSfddjS10&callback=initMap" async defer></script>
+
 
     <script>
 
     function cambiarPagina(page){
+      $.mobile.changePage('#' + page, {
+        transition: 'flip'
+      });
+    };
 
-    $.mobile.changePage('#' + page, {
 
-      transition: 'flip'
-
-    });
-
+    window.initMap = function(){
+      var map,
+          marcador,
+          LatLngInicial = new google.maps.LatLng(25.760527, -80.102800);
+      map = new google.maps.Map(document.getElementById('divMapa'), {
+          center: LatLngInicial,
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROAD
+      });
+      marcador = new google.maps.Marker({
+        position: LatLngInicial,
+        map: mapa,
+        title: 'Marcador'
+      });
+      marcadores[0] = marcador;
     };
 
     $(document).ready(()=>{
-
-    var hoteles = [];
-
-    function initMap() {
-      mapa = new google.maps.Map(document.getElementById('divMapa'), opciones),
-      opciones = {
-        zoom: 8,
-        center: {lat: -34.397, lng: 150.644},
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-    }
-
-    $('#boton1').click(()=>{
-      var mapa = 'null',
-          LatLngInicial = new google.maps.LatLng(25.760527, -80.192800),
-          marcadores = [],
-
-          marcador = new google.maps.Marker({
-            position: LatLngInicial,
-            map: mapa,
-            title: 'Marcador'
-          });
-
-          marcadores[0] = marcador;
-
-      var id = $('#id').val(),
-          ciudad = $('#ciudad').val(),
-          telefono = $('#telefono').val(),
-          estrellas = $('#estrellas').val(),
-          hotel = {
-            id:id,
-            ciudad: ciudad,
-            telefono: telefono,
-            estrellas: estrellas
-          };
-
+      var hoteles = [];
+      $('#botonRegistro').click(()=>{
+        var id = $('#id').val(),
+            ciudad = $('#ciudad').val(),
+            telefono = $('#telefono').val(),
+            estrellas = $('#estrellas').val(),
+            hotel = {
+              id:id,
+              ciudad: ciudad,
+              telefono: telefono,
+              estrellas: estrellas
+            };
       hoteles.push(hotel);
-      console.log('Cliente Registrado');
+      console.log('Hotel Registrado');
+      document.createElement('BUTTON');
       limpiarCampos();
+      });
+
+      function limpiarCampos(){
+    		$('#id').val('');
+    		$('#ciudad').val('');
+    		$('#telefono').val('');
+    		$('#estrellas').val('');
+    	};
 
     });
 
-    function limpiarCampos(){
-  		$('#id').val('');
-  		$('#ciudad').val('');
-  		$('#telefono').val('');
-  		$('#estrellas').val('');
-  	};
-
-    initMap();
-    })
-
     </script>
-
   </head>
   <body>
 
@@ -101,7 +86,7 @@
 			<div data-role = 'content'>
 				<form>
 					<a onclick = "cambiarPagina('paginaRegistro')" class = 'ui-btn ui-icon-plus ui-btn-icon-left ui-shadow-icon'>Registrar Hotel</a>
-					<a onclick = "cambiarPagina('paginaListar')" id = 'btnListarCliente' class = 'ui-btn ui-icon-bars ui-btn-icon-left ui-shadow-icon'>Lista Hoteles</a>
+					<a onclick = "cambiarPagina('paginaListar')" id = 'btnListarHotel' class = 'ui-btn ui-icon-bars ui-btn-icon-left ui-shadow-icon'>Lista Hoteles</a>
 				</form>
 			</div>
 			<div data-role = 'footer'>
@@ -111,15 +96,20 @@
 
 		<div data-role = 'page' id = 'paginaRegistro'>
 			<div data-role = 'header'>
-				<h1>Listar Hotel</h1>
+				<h1>Registar Hotel</h1>
 			</div>
 			<div data-role = 'content'>
 				<form>
 					<div class = 'ui-field-contain'>
 						<label for = 'id'>Nombre: </label>
 						<input type = 'text' name = 'id' id = 'id'>
-						<label for = 'ubicacion'>Ubicación: </label>
-            <div id = 'divMapa'></div>
+          </div>
+        </form>
+        <div id="divMapa">
+          <p>Ubicación: </p>
+        </div>
+        <form>
+          <div class = 'ui-field-contain'>
 						<label for = 'direccion'>Ciudad: </label>
 						<input type = 'text' name = 'ciudad' id = 'ciudad'>
 						<label for = 'telefono'>Teléfono: </label>
@@ -127,12 +117,12 @@
 						<label for = 'email'>Estrellas: </label>
 						<input type = 'text' name = 'estrellas' id = 'estrellas'>
 					</div>
-					<a id = 'boton1' class = 'ui-btn ui-icon-check ui-btn-icon-right ui-shadow-icon'>Registrar Hotel</a>
+					<a id = 'botonRegistro' class = 'ui-btn ui-icon-check ui-btn-icon-right ui-shadow-icon'>Registrar Hotel</a>
 					<a onclick = "cambiarPagina('paginaInicio')" class = 'ui-btn ui-icon-home ui-btn-icon-right ui-shadow-icon'>Volver</a>
 				</form>
 			</div>
 			<div data-role = 'footer'>
-				<p align = 'center'>Registro cliente</p>
+				<p align = 'center'>Registrar Hotel</p>
 			</div>
 		</div>
 
@@ -140,7 +130,7 @@
 			<div data-role = 'header'>
 				<h1>Listar Hotel</h1>
 			</div>
-			<div data-role = 'content'>
+			<div data-role = 'content' id = 'appendTo'>
 
 				<!-- <a onclick = "cambiarPagina('paginaVerDatos')" id = 'boton2' class = 'ui-btn ui-icon-check ui-btn-icon-right ui-shadow-icon'>Hotel Caribe</a>  -->
 
@@ -150,6 +140,6 @@
 				<p align = 'center'>Listado Clientes</p>
 			</div>
 		</div>
-
+    <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAwjG0pBe9E6udWP6BJ2v8Q3ZkQdwrzPRI&callback=initMap"></script>
   </body>
 </html>
