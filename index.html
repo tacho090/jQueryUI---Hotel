@@ -12,6 +12,9 @@
         height: 400px;
         padding: 0;
       }
+      .bold{
+        font-weight: bold;
+      }
     </style>
 
 
@@ -24,6 +27,7 @@
     <script>
 
     function cambiarPagina(page){
+      console.log('cambio de pagina completo');
       $.mobile.changePage('#' + page, {
         transition: 'flip'
       });
@@ -39,12 +43,6 @@
           zoom: 8,
           mapTypeId: google.maps.MapTypeId.ROAD
       });
-      marcador = new google.maps.Marker({
-        position: LatLngInicial,
-        map: mapa,
-        title: 'Marcador'
-      });
-      marcadores[0] = marcador;
     };
 
     $(document).ready(()=>{
@@ -62,7 +60,15 @@
             };
       hoteles.push(hotel);
       console.log('Hotel Registrado');
-      document.createElement('BUTTON');
+      var myDiv = document.getElementById('appendTo');
+      var link = document.createElement('a');
+      link.setAttribute("onclick", "cambiarPagina('paginaVerDatos')");
+      link.setAttribute('class', 'ui-btn ui-icon-check ui-btn-icon-right ui-shadow-icon');
+      link.setAttribute('id', hotel.id);
+      var text = document.createTextNode(hotel.id);
+      link.appendChild(text);
+      myDiv.appendChild(link);
+      console.log(hoteles);
       limpiarCampos();
       });
 
@@ -132,14 +138,39 @@
 			</div>
 			<div data-role = 'content' id = 'appendTo'>
 
-				<!-- <a onclick = "cambiarPagina('paginaVerDatos')" id = 'boton2' class = 'ui-btn ui-icon-check ui-btn-icon-right ui-shadow-icon'>Hotel Caribe</a>  -->
-
-				<a onclick = "cambiarPagina('paginaInicio')" class = 'ui-btn ui-icon-home ui-btn-icon-right ui-shadow-icon'>Volver</a>
 			</div>
+      <div>
+        <a onclick = "cambiarPagina('paginaInicio')" class = 'ui-btn ui-icon-home ui-btn-icon-right ui-shadow-icon'>Volver</a>
+      </div>
 			<div data-role = 'footer'>
 				<p align = 'center'>Listado Clientes</p>
 			</div>
 		</div>
+
+    <div data-role = 'page' id = 'paginaVerDatos'>
+      <div data-role = 'header'>
+				<h1>Ver información sobre hotel</h1>
+			</div>
+      <div data-role = 'content'>
+        <p class = 'bold'>Nombre: </p>
+        <p id = 'verNombre'><p><br/>
+        <p class = 'bold'>Ciudad: </p>
+        <p id = 'verCiudad'><p><br/>
+        <p class = 'bold'>Teléfono: </p>
+        <p id = 'verTelefono'><p><br/>
+        <p class = 'bold'>Estrellas: </p>
+        <p id = 'verEstrellas'><p><br/>
+        <p class = 'bold'>Ubicacion: </p>
+        <div id="divMapa"></div>
+      </div>
+      <div>
+        <a onclick = "cambiarPagina('paginaListar')" class = 'ui-btn ui-icon-home ui-btn-icon-right ui-shadow-icon'>Lista de Hoteles</a>
+      </div>
+      <div data-role = 'footer'>
+				<p align = 'center'>Ver información sobre hotel</p>
+			</div>
+    </div>
+
     <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAwjG0pBe9E6udWP6BJ2v8Q3ZkQdwrzPRI&callback=initMap"></script>
   </body>
 </html>
